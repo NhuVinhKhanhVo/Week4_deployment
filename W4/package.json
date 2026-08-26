@@ -14,7 +14,6 @@
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
   },
   "dependencies": {
-    "98.css": "^0.1.21",
     "express": "^5.2.1",
     "morgan": "^1.11.0"
   },
