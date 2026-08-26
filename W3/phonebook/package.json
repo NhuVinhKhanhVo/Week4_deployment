@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "98.css": "^0.1.21",
     "axios": "^1.19.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
