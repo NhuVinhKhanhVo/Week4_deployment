@@ -44,7 +44,7 @@ app.get('/', (request, response) => {
 })
 
 //show contacts JSON
-app.get('/api/contacts',(request,response) => {
+app.get('/api/persons',(request,response) => {
     response.json(contacts)
 })
 
@@ -65,7 +65,7 @@ app.get('/info',
 )
 
 //get individual contact
-app.get('/api/contacts/:id', (request,response) => {
+app.get('/api/persons/:id', (request,response) => {
     const id = request.params.id
     const contact = contacts.find(contact => contact.id === id)
 
@@ -75,7 +75,7 @@ app.get('/api/contacts/:id', (request,response) => {
 })
 
 //DELETE A PERSON (code 204 is no content)
-app.delete('/api/contacts/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response) => {
     const id = request.params.id
     contacts = contacts.filter(contact => contact.id !== id)
     response.status(204).end()
@@ -89,7 +89,7 @@ const generateID = () => {
   return String(randomID)
 }
 
-app.post('/api/contacts', (request, response) => {
+app.post('/api/persons', (request, response) => {
   const body = request.body
 
   if (!body.name || !body.number) {
