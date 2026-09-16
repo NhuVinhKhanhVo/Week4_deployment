@@ -1,8 +1,12 @@
 const express = require("express")
 const morgan  = require("morgan")
+require('dotenv').config()
+const PersonDetail = require('./models/person')
+
+
+
 
 const app = express()
-
 
 app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :type'))
@@ -47,10 +51,11 @@ app.get('/', (request, response) => {
 
 
 //show contacts JSON
-app.get('/api/persons',(request,response) => {
-    response.json(contacts)
+app.get('/api/persons', (request, response) => {
+  PersonDetail.find({}).then(notes => {
+    response.json(notes)
+  })
 })
-
 
 
 
@@ -127,6 +132,6 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint)
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT)
 console.log(`Server running on port ${PORT}`)
