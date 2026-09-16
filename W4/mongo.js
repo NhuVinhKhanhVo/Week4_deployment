@@ -29,9 +29,10 @@ const personDetail = new PersonDetail({
 
 if (process.argv.length === 3) {
     console.log("Displaying database content")
+    console.log("phonebook: ")
     PersonDetail.find({}).then(result => {
         result.forEach(person => {
-            console.log(person)
+            console.log(person.name, person.number)
         })
         mongoose.connection.close()
     })
