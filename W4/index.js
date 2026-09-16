@@ -108,31 +108,23 @@ app.post('/api/persons', (request, response) => {
   const trimmedName = body.name.trim()
   const trimmedNumber = body.number.trim()
 
+  PersonDetail.findOne({
+    name: { $regex: new RegExp(`^${trimmedName}$`, 'i') }
+  }).then(existingPerson => {
+    if (existingPerson) {
+      return response.status(400).json({ error: 'Name already exists' })
+    }
 
-  const existingPerson = PersonDetail.find(
-    contact => contact.name.toLowerCase() === trimmedName.toLowerCase()
-  )
+    const contact = new PersonDetail({
+      name: trimmedName,
+      number: trimmedNumber
+    })
 
-  if (existingPerson) {
-    return response.status(400).json({ error: 'Name already exists' })
-  }
-
-  const contact = new PersonDetail({
-    id: generateID(),
-    name: trimmedName,
-    number: trimmedNumber
-  })
-
-  contact.save().then(savedContact => {
-    response.json(savedContact)
+    contact.save().then(savedContact => {
+      response.json(savedContact)
+    })
   })
 })
-
-
-
-
-
-
 
 
 
