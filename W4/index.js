@@ -73,14 +73,15 @@ app.get('/info',
 )
 
 //get individual contact
-app.get('/api/persons/:id', (request,response) => {
-    const id = request.params.id
-    const contact = contacts.find(contact => contact.id === id)
-
-    if (contact) {response.json(contact)}
-    else {response.status(404).end()}
-    
+app.get('/api/persons/:id', (request, response) => {
+  PersonDetail.findById(request.params.id).then(person => {
+    response.json(person)
+  })
 })
+
+
+
+
 
 //DELETE A PERSON (code 204 is no content)
 app.delete('/api/persons/:id', (request, response) => {
@@ -108,7 +109,7 @@ app.post('/api/persons', (request, response) => {
   const trimmedNumber = body.number.trim()
 
 
-  const existingPerson = contacts.find(
+  const existingPerson = PersonDetail.find(
     contact => contact.name.toLowerCase() === trimmedName.toLowerCase()
   )
 
@@ -116,16 +117,16 @@ app.post('/api/persons', (request, response) => {
     return response.status(400).json({ error: 'Name already exists' })
   }
 
-  const contact = {
+  const contact = new PersonDetail({
     id: generateID(),
     name: trimmedName,
     number: trimmedNumber
-  }
+  })
 
-  contacts = contacts.concat(contact)
-  response.json(contact)
+  contact.save().then(savedContact => {
+    response.json(savedContact)
+  })
 })
-
 
 
 
